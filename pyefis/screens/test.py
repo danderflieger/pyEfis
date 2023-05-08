@@ -19,7 +19,10 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
 #from instruments import ai
-from pyefis.instruments import gauges
+# from pyefis.instruments import gauges
+from pyefis.instruments import aoa, gauges
+
+
 #from instruments import hsi
 #from instruments import airspeed
 #from instruments import altimeter
@@ -37,19 +40,21 @@ class Screen(QWidget):
             self.setPalette(p)
             self.setAutoFillBackground(True)
 
-        #
-        # self.test = gauges.ArcGauge(self)
-        # self.test.name = "OILP"
-        # self.test.decimalPlaces = 1
-        # self.test.dbkey = "OILP1"
 
         self.test = gauges.ArcGauge(self)
-        self.test.name = "AOA"
-        self.test.decimalPlaces = 2
-        self.test.dbkey = "AOA"
+        self.test.name = "OILP"
+        self.test.decimalPlaces = 1
+        self.test.dbkey = "OILP1"
+
+        # self.test = gauges.ArcGauge(self)
+        self.aoa_tape = aoa.AoA_Tape(self)
 
     def resizeEvent(self, event):
-        # self.test.resize(200, 100)
-        # self.test.move(self.width() - 200, 100)
+        self.test.resize(200, 100)
+        self.test.move(self.width() - 200, 100)
         self.test.resize(300, 150)
         self.test.move(300, 200)
+
+        self.aoa_tape.resize(50, 400)
+        self.aoa_tape.move(10, 10)
+
