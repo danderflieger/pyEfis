@@ -18,7 +18,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
-from pyefis.instruments import ai
+from pyefis.instruments import ai, aoa
 from pyefis.instruments.ai.VirtualVfr import VirtualVfr
 from pyefis.instruments import gauges
 from pyefis.instruments import hsi
@@ -43,6 +43,14 @@ class Screen(QWidget):
         self.ai = VirtualVfr(self)
         self.ai.fontSize = 20
         self.ai.pitchDegreesShown = 90
+
+        # aoa indicator
+        self.aoa = aoa.AoA(self)
+        self.aoa.name = "AOA"
+        self.aoa.setAOA(0)
+        self.aoa.setGeometry(100, 20, self.aoa.MarkerWidth + 2,
+                             ((self.aoa.BorderThickness * 2) + self.aoa.MarkerHeight + self.aoa.MarkerDistance)*12)
+
 
 	# altimeter tape
         self.alt_tape = altimeter.Altimeter_Tape(self)
@@ -136,6 +144,9 @@ class Screen(QWidget):
         self.egt.setUnitSwitching()
         self.egt.decimalPlaces = 0
         self.egt.dbkey = "EGTAVG1"
+
+
+
 
 
     def resizeEvent(self, event):
