@@ -33,7 +33,7 @@ class AoA(QWidget):
         self.setFocusPolicy(Qt.NoFocus)
         self.myparent = parent
         self.update_period = None
-        self._aoa = 0
+        self._aoa = 15
         self.item = fix.db.get_item("AOA")
         self.item.valueChanged[float].connect(self.setAOA)
 
@@ -51,21 +51,21 @@ class AoA(QWidget):
 
         # create some re-usable colors for the various markers. High and Low will
         # indicate whether you have reached a threshold or not. Border color does not change
-        self.RedLow         = QColor(130, 40, 40)
-        self.RedHigh        = QColor(255, 40, 40)
-        self.RedBorder      = QColor(200, 40, 40)
+        self.RedLow         = QColor(100, 30, 30)
+        self.RedHigh        = QColor(255, 70, 70, 255)
+        self.RedBorder      = QColor(150, 100, 100)
 
-        self.YellowLow      = QColor(100, 100, 40)
-        self.YellowHigh     = QColor(255, 255, 40)
-        self.YellowBorder   = QColor(200, 200, 40)
+        self.YellowLow      = QColor(100, 100, 30)
+        self.YellowHigh     = QColor(255, 255, 70, 255)
+        self.YellowBorder   = QColor(150, 150, 100)
 
-        self.GreenLow       = QColor(40, 100, 40)
-        self.GreenHigh      = QColor(40, 255, 40)
-        self.GreenBorder    = QColor(40, 200, 40)
+        self.GreenLow       = QColor(30, 100, 30)
+        self.GreenHigh      = QColor(70, 255, 70, 255)
+        self.GreenBorder    = QColor(100, 150, 100)
 
-        self.BlueLow       = QColor(40, 50, 100)
-        self.BlueHigh      = QColor(40, 90, 255)
-        self.BlueBorder    = QColor(40, 90, 200)
+        self.BlueLow       = QColor(30, 40, 100)
+        self.BlueHigh      = QColor(70, 130, 255, 255)
+        self.BlueBorder    = QColor(70, 90, 150)
 
     def setAOA(self, aoa):
         if aoa != self._aoa:
@@ -132,12 +132,11 @@ class AoA(QWidget):
         painter.drawRect(1, self.setMarkerHeight(10), self.MarkerWidth, self.MarkerHeight)
 
         painter.setPen(QPen(self.GreenBorder, self.BorderThickness, Qt.SolidLine))
-        painter.setBrush(QBrush(self.GreenLow if self._aoa <= self.item.get_aux_value('0g') else self.GreenHigh,
-                                Qt.SolidPattern))
+        painter.setBrush(QBrush(self.GreenHigh, Qt.SolidPattern))
         painter.drawRect(1, self.setMarkerHeight(11), self.MarkerWidth, self.MarkerHeight)
 
         painter.setPen(QPen(self.YellowBorder, self.BorderThickness, Qt.SolidLine))
-        painter.setBrush(QBrush(self.YellowHigh if self._aoa < self.item.get_aux_value('0g') - 1 else self.YellowLow,
+        painter.setBrush(QBrush(self.YellowHigh if self._aoa < self.item.get_aux_value('0g') else self.YellowLow,
                                 Qt.SolidPattern))
         painter.drawRect(1, self.setMarkerHeight(12), self.MarkerWidth, self.MarkerHeight)
 
