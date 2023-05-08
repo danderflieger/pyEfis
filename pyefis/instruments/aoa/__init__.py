@@ -21,123 +21,78 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
+
 import pyavtools.fix as fix
 import pyefis.hmi as hmi
 from pyefis.instruments.NumericalDisplay import NumericalDisplay
 
 
 class AoA(QWidget):
-    FULL_WIDTH = 50
 
     def __init__(self, parent=None, fontsize=20):
         super(AoA, self).__init__(parent)
-        self.setStyleSheet("border: 0px")
-        self.setFocusPolicy(Qt.NoFocus)
-        self.fontsize = fontsize
-        self._aoa = 0
-        self.item = fix.db.get_item("AOA")
-        self.item.valueChanged[float].connect(self.setAoA)
-        self.item.oldChanged[bool].connect(self.repaint)
-        self.item.badChanged[bool].connect(self.repaint)
-        self.item.failChanged[bool].connect(self.repaint)
 
-    # def paintEvent(self, event):
-    #     w = self.width()
-    #     h = self.height()
-    #     dial = QPainter(self)
-    #     dial.setRenderHint(QPainter.Antialiasing)
-    #
-    #     dial.fillRect(0, 0, w, h, Qt.black)
-    #
-    #     f = QFont
-    #     fs = int(round(self.fontsize * w / self.FULL_WIDTH))
-    #     f.setPixelSize(fs)
-    #     fontMetrics = QFontMetricsF(f)
-    #
-    #     dialPen = QPen(QColor(Qt.white))
-    #     dialPen.setWidth(2)
-    #
-    #     criticalAoA = QPen(QColor(Qt.red))
-    #     criticalAoA.setWidth(6)
+        self.setGeometry(10, 10, 180, 400)
 
+        self.MarkerHeight = 8
+        self.MarkerWidth = 100
+        self.MarkerDistance = 1
+        self.BorderThickness = 1
 
-class AoA_Tape(QGraphicsView):
-    def __init__(self, parent=None):
-        super(AoA_Tape, self).__init__(parent)
-        self.myparent = parent
-        # p = self.parent.palette()
-        # p = self.palette()
+        self.RedLow         = QColor(130, 40, 40)
+        self.RedHigh        = QColor(255, 40, 40)
+        self.RedBorder      = QColor(200, 40, 40)
 
-        self.screenColor = (10, 10, 10)
-        self.setAutoFillBackground(True)
-        # if self.screenColor:
-        #     p.setColor(self.backgroundRole(), QColor(*self.screenColor))
-        #     self.SetPalette(p)
-        #     self.setAutoFillBackground(True)
+        self.YellowLow      = QColor(100, 100, 40)
+        self.YellowHigh     = QColor(255, 255, 40)
+        self.YellowBorder   = QColor(200, 200, 40)
 
-        self.update_period = None
-        self.setStyleSheet("background-color: rgba(30, 30, 30, 20%")
-        #self.setStyleSheet("background: transparent")
-        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.setRenderHint(QPainter.Antialiasing)
-        self.setFocusPolicy(Qt.NoFocus)
-        self.item = fix.db.get_item("AOA")
-        self._aoa = self.item.value
+        self.GreenLow       = QColor(40, 100, 40)
+        self.GreenHigh      = QColor(40, 255, 40)
+        self.GreenBorder    = QColor(40, 200, 40)
 
-        # AoA Angles
-        self.ZeroG = self.item.get_aux_value("0g")
-        self.Warn = self.item.get_aux_value("Warn")
-        self.Stall = self.item.get_aux_value("Stall")
+        self.WhiteLow       = QColor(100, 100, 100)
+        self.WhiteHigh      = QColor(255, 255, 255)
+        self.WhiteBorder    = QColor(200, 200, 200)
 
-        self.max = int(round(self.Stall * 1.25))
+    def paintEvent(self, event):
+        painter = QPainter(self)
 
-        self.backgroundOpacity = 0.3
-        self.foregroundOpacity = 0.6
-        self.pph = 10
-        self.fontsize = 15
-        self.majorDiv = 10
-        self.minorDiv = 5
+        painter.setPen(QPen(self.RedBorder, self.BorderThickness, Qt.SolidLine))
+        painter.setBrush(QBrush(self.RedLow, Qt.SolidPattern))
+        painter.drawRect(1, 0, self.MarkerWidth, self.MarkerHeight)
 
-    def resizeEvent(self, event):
-        w = self.width()
-        h = self.height()
-        self.markWidth = w / 5
-        f = QFont()
-        f.setPixelSize(self.fontsize)
-        tape_height = self.max * self.pph + h
-        tape_start = self.max * self.pph + h / 2
+        painter.setPen(QPen(self.RedBorder, self.BorderThickness, Qt.SolidLine))
+        painter.setBrush(QBrush(self.RedHigh, Qt.SolidPattern))
+        painter.drawRect(1, self.setMarkerHeight(1), self.MarkerWidth, self.MarkerHeight)
 
-        dialPen = QPen(QColor(Qt.white))
-        self.scene = QGraphicsScene(0, 0, w, tape_height)
-        x = self.scene.addRect(0, 0, w, tape_height,
-                               QPen(QColor(30, 30, 30)), QBrush(QColor(30, 30, 30)))
-        x.setOpacity(self.backgroundOpacity)
+        painter.setPen(QPen(self.YellowBorder, self.BorderThickness, Qt.SolidLine))
+        painter.setBrush(QBrush(self.YellowLow, Qt.SolidPattern))
+        painter.drawRect(1, self.setMarkerHeight(2), self.MarkerWidth, self.MarkerHeight)
 
-        # Add angle markings
-        # Green Bar
-        r = QRectF(QPoint(0, -self.ZeroG * self.pph + tape_start),
-                   QPoint(self.markWidth, -self.Warn * self.pph + tape_start))
-        x = self.scene.addRect(r, QPen(QColor(0, 155, 0)), QBrush(QColor(0, 155, 0)))
-        x.setOpacity(self.foregroundOpacity)
+        painter.setPen(QPen(self.YellowBorder, self.BorderThickness, Qt.SolidLine))
+        painter.setBrush(QBrush(self.YellowHigh, Qt.SolidPattern))
+        painter.drawRect(1, self.setMarkerHeight(3), self.MarkerWidth, self.MarkerHeight)
 
-        # Yellow Bar
+        painter.setPen(QPen(self.GreenBorder, self.BorderThickness, Qt.SolidLine))
+        painter.setBrush(QBrush(self.GreenLow, Qt.SolidPattern))
+        painter.drawRect(1, self.setMarkerHeight(4), self.MarkerWidth, self.MarkerHeight)
 
-        def getAoA(self):
-            return self._aoa
+        painter.setPen(QPen(self.GreenBorder, self.BorderThickness, Qt.SolidLine))
+        painter.setBrush(QBrush(self.GreenLow, Qt.SolidPattern))
+        painter.drawRect(1, self.setMarkerHeight(5), self.MarkerWidth, self.MarkerHeight)
 
-        def setAoA(self):
-            if AoA != self._aoa:
-                self._aoa = AoA
-                self.redraw()
+        painter.setPen(QPen(self.GreenBorder, self.BorderThickness, Qt.SolidLine))
+        painter.setBrush(QBrush(self.GreenHigh, Qt.SolidPattern))
+        painter.drawRect(1, self.setMarkerHeight(6), self.MarkerWidth, self.MarkerHeight)
 
-        aoa = property(getAoA, setAoA)
+        painter.setPen(QPen(self.WhiteBorder, self.BorderThickness, Qt.SolidLine))
+        painter.setBrush(QBrush(self.WhiteHigh, Qt.SolidPattern))
+        painter.drawRect(1, self.setMarkerHeight(7), self.MarkerWidth, self.MarkerHeight)
 
-        def setAsOld(self, b):
-            self.numerical_display.old = b
+        painter.setPen(QPen(self.WhiteBorder, self.BorderThickness, Qt.SolidLine))
+        painter.setBrush(QBrush(self.WhiteLow, Qt.SolidPattern))
+        painter.drawRect(1, self.setMarkerHeight(8), self.MarkerWidth, self.MarkerHeight)
 
-        def setAsBad(self, b):
-            self.numerical_display.bad = b
-
-        def setAsFail(self, b):
-            self.numerical_display.fail = b
+    def setMarkerHeight(self, markerNumber):
+        return markerNumber * (self.MarkerHeight + self.MarkerDistance + self.BorderThickness)

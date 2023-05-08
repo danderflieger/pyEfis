@@ -18,15 +18,15 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
-#from instruments import ai
+# from instruments import ai
 # from pyefis.instruments import gauges
 from pyefis.instruments import aoa, gauges
 
 
-#from instruments import hsi
-#from instruments import airspeed
-#from instruments import altimeter
-#from instruments import vsi
+# from instruments import hsi
+# from instruments import airspeed
+# from instruments import altimeter
+# from instruments import vsi
 
 class Screen(QWidget):
     def __init__(self, parent=None):
@@ -34,27 +34,18 @@ class Screen(QWidget):
         self.parent = parent
         p = self.parent.palette()
 
-        self.screenColor = (10,10,10)
+        self.screenColor = (80, 80, 80)
         if self.screenColor:
             p.setColor(self.backgroundRole(), QColor(*self.screenColor))
             self.setPalette(p)
             self.setAutoFillBackground(True)
 
-
-        self.test = gauges.ArcGauge(self)
-        self.test.name = "OILP"
-        self.test.decimalPlaces = 1
-        self.test.dbkey = "OILP1"
+        # self.test = gauges.ArcGauge(self)
+        # self.test.name = "OILP"
+        # self.test.decimalPlaces = 1
+        # self.test.dbkey = "OILP1"
 
         # self.test = gauges.ArcGauge(self)
-        self.aoa_tape = aoa.AoA_Tape(self)
-
-    def resizeEvent(self, event):
-        self.test.resize(200, 100)
-        self.test.move(self.width() - 200, 100)
-        self.test.resize(300, 150)
-        self.test.move(300, 200)
-
-        self.aoa_tape.resize(50, 400)
-        self.aoa_tape.move(10, 10)
+        # self.aoa_tape = aoa.AoA_Tape(self)
+        self.test = aoa.AoA(self)
 
