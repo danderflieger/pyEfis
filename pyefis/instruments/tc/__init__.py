@@ -33,7 +33,7 @@ class TurnCoordinator(QWidget):
             self.setStyleSheet("border: 0px")
         else:
             pass
-            #self.setStyleSheet("background-color: rgba(0, 0, 0, 0%); border: 0px")
+            self.setStyleSheet("background-color: rgba(0, 0, 0, 0%); border: 0px")
         self.setFocusPolicy(Qt.NoFocus)
         self._rate = 0.0
         self._latAcc = 0.0

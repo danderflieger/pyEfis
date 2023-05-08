@@ -31,18 +31,25 @@ class Screen(QWidget):
         self.parent = parent
         p = self.parent.palette()
 
-        self.screenColor = (0,0,0)
+        self.screenColor = (10,10,10)
         if self.screenColor:
             p.setColor(self.backgroundRole(), QColor(*self.screenColor))
             self.setPalette(p)
             self.setAutoFillBackground(True)
 
+        #
+        # self.test = gauges.ArcGauge(self)
+        # self.test.name = "OILP"
+        # self.test.decimalPlaces = 1
+        # self.test.dbkey = "OILP1"
 
         self.test = gauges.ArcGauge(self)
-        self.test.name = "OILP"
-        self.test.decimalPlaces = 1
-        self.test.dbkey = "OILP1"
+        self.test.name = "AOA"
+        self.test.decimalPlaces = 2
+        self.test.dbkey = "AOA"
 
     def resizeEvent(self, event):
-        self.test.resize(200, 100)
-        self.test.move(self.width() - 200, 100)
+        # self.test.resize(200, 100)
+        # self.test.move(self.width() - 200, 100)
+        self.test.resize(300, 150)
+        self.test.move(300, 200)

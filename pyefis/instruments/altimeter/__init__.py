@@ -38,7 +38,7 @@ class Altimeter(QWidget):
         self.item.failChanged[bool].connect(self.repaint)
 
     # TODO We continuously draw things that don't change.  Should draw the
-    # background save to pixmap or something and then blit it and draw arrows.
+    #   background save to pixmap or something and then blit it and draw arrows.
     def paintEvent(self, event):
         w = self.width()
         h = self.height()
