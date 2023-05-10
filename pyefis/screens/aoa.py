@@ -40,12 +40,12 @@ class Screen(QWidget):
             self.setPalette(p)
             self.setAutoFillBackground(True)
 
-        self.test = gauges.ArcGauge(self)
-        self.test.name = "OILP"
-        self.test.decimalPlaces = 1
-        self.test.dbkey = "OILP1"
+        # self.test = gauges.ArcGauge(self)
+        # self.test.name = "OILP"
+        # self.test.decimalPlaces = 1
+        # self.test.dbkey = "OILP1"
 
-        self.test = gauges.ArcGauge(self)
+        # self.test = gauges.ArcGauge(self)
         # self.aoa_tape = aoa.AoA_Tape(self)
-        # self.test = aoa.AoA(self)
+        self.test = aoa.AoA(self)
 

@@ -29,23 +29,25 @@ menu:
       #    - ['Units', 'Set Instrument Units', 'OAT,OILT1,Temperature:Toggle']
       #    - ['Basic', 'activate menu','BasicMenu']
       BasicMenu:
-          - ['Hide', 'activate menu', 'ShowMenu2']
+#          - ['Hide', 'activate menu', 'ShowMenu2']
           - ['PFD', 'Show Screen','PFD']
           - ['EPFD', 'Show Screen','EPFD']
           - ['EMS', 'Show Screen','EMS']
           - ['PFDSM', 'Show Screen','PFDSM']
-#          - ['TEST', 'Show Screen', 'TEST']
+          - ['TEST', 'Show Screen', 'TEST']
+          - ['AoA', 'Show Screen','AOA']
       #    - ['Six', 'Show Screen','SixPack']
       #    - ['Main', 'activate menu','PFDMenu']
       #ShowMenu:
       #    - ['Show', 'activate menu','PFDMenu']
       ShowMenu2:
           - ['Show', 'activate menu','BasicMenu']
+
   start_menu: BasicMenu
 #  show_time: 3  # hides the menu after 3 seconds.  However cannot show again.  Don't use.  Here for reference only.
   number_of_buttons: 6
   buttons_spacing: 100
-  left_margin: 620
+  left_margin: 420
   top_margin: 565
 
 # The keybindings are used to attach keystrokes to actions.  The key can be
@@ -158,19 +160,19 @@ outputs:
 # the screen
 
 screens:
-#  EPFD:
-#    module: pyefis.screens.epfd
-#    title: Primary Flight Display
+  EPFD:
+    module: pyefis.screens.epfd
+    title: Primary Flight Display
 #    dbpath: /home/phil/.makerplane/data/CIFP/FAACIFP18
 #    indexpath: /home/phil/.makerplane/data/CIFP/index.bin
-#    check_engine: [MAP1, TACH1, OILP1, OILT1, FUELQT, FUELF1, CHTMAX1, EGTAVG1]
-#    update_period: .1
+    check_engine: [MAP1, TACH1, OILP1, OILT1, FUELQT, FUELF1, CHTMAX1, EGTAVG1]
+    update_period: .1
 
   PFD:
     module: pyefis.screens.pfd
     title: Primary Flight Display
-    dbpath: /home/phil/.makerplane/data/CIFP/FAACIFP18
-    indexpath: /home/phil/.makerplane/data/CIFP/index.bin
+#    dbpath: /home/phil/.makerplane/data/CIFP/FAACIFP18
+#    indexpath: /home/phil/.makerplane/data/CIFP/index.bin
     update_period: .1
 
   EMS:
@@ -188,6 +190,11 @@ screens:
   TEST:
     module: pyefis.screens.test
     title: Test Screen
+
+  AOA:
+    module: pyefis.screens.aoa
+    title: AOA Screen
+
 
 # Hooks are user defined modules that are loaded at specific points
 # in the programs execution.  Right now their is only one place and

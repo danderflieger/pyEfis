@@ -30,12 +30,22 @@ class AoA(QWidget):
     # First, let's define some things
     def __init__(self, parent=None, fontsize=20):
         super(AoA, self).__init__(parent)
-        self.setFocusPolicy(Qt.NoFocus)
+        # self.setFocusPolicy(Qt.ClickFocus)
         self.myparent = parent
         self.update_period = None
         self._aoa = 0
         self.item = fix.db.get_item("AOA")
         self.item.valueChanged[float].connect(self.setAOA)
+        self.setMinimumSize(QSize(500, 500))
+
+
+        # self.setLevelButton = QPushButton(self)
+        # self.setLevelButton.setText("Set Level")
+        # self.setLevelButton.resize(100, 32)
+        # self.setLevelButton.move(50, 50)
+        # self.setLevelButton.clicked.connect(self.setLevelAngle)
+        # self.setLevelButton.setEnabled(True)
+
 
 
 
@@ -67,6 +77,8 @@ class AoA(QWidget):
         self.BlueHigh      = QColor(70, 130, 255, 255)
         self.BlueBorder    = QColor(70, 90, 150)
 
+
+
     def setAOA(self, aoa):
         if aoa != self._aoa:
             self._aoa = aoa
@@ -74,7 +86,6 @@ class AoA(QWidget):
 
     def paintEvent(self, event):
         painter = QPainter(self)
-
 
         # painter.setPen(QPen(self.RedBorder, self.BorderThickness, Qt.SolidLine))
         painter.setBrush(QBrush(self.RedLow if self._aoa < self.item.get_aux_value('Stall') else self.RedHigh,
@@ -139,6 +150,11 @@ class AoA(QWidget):
         painter.setBrush(QBrush(self.YellowHigh if self._aoa < self.item.get_aux_value('0g') else self.YellowLow,
                                 Qt.SolidPattern))
         painter.drawRect(1, self.setMarkerHeight(12), self.MarkerWidth, self.MarkerHeight)
+
+
+
+    def setLevelAngle(self):
+        print("clicked")
 
     def setMarkerHeight(self, markerNumber):
         return markerNumber * (self.MarkerHeight + self.MarkerDistance + self.BorderThickness)

@@ -18,7 +18,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
-from pyefis.instruments import ai
+from pyefis.instruments import ai, aoa
 from pyefis.instruments import gauges
 from pyefis.instruments import hsi
 from pyefis.instruments import airspeed
@@ -42,6 +42,13 @@ class Screen(QWidget):
         self.ai.bankMarkSize = 10
         self.ai.pitchDegreesShown = 60
         self.ai.bankAngleRadius = 150
+
+        # aoa indicator
+        self.aoa = aoa.AoA(self)
+        self.aoa.name = "AOA"
+        self.aoa.setAOA(0)
+        self.aoa.setGeometry(75, 20, self.aoa.MarkerWidth + 2,
+                             ((self.aoa.BorderThickness * 2) + self.aoa.MarkerHeight + self.aoa.MarkerDistance) * 12)
 
         self.alt_tape = altimeter.Altimeter_Tape(self)
         #self.alt_Trend = vsi.Alt_Trend_Tape(self)
