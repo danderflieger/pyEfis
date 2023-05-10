@@ -45,6 +45,7 @@ class AoA(QWidget):
         # self.setLevelButton.move(50, 50)
         # self.setLevelButton.clicked.connect(self.setLevelAngle)
         # self.setLevelButton.setEnabled(True)
+        #
 
 
 
@@ -57,7 +58,9 @@ class AoA(QWidget):
         self.BorderThickness = 1
 
         # using the size of the markers, make the size of the canvas
-        self.setGeometry(0, 0, self.MarkerWidth + 2, ((self.BorderThickness * 2) + self.MarkerHeight + self.MarkerDistance)*12)
+        #self.setGeometry(0, 0, self.MarkerWidth + 2, ((self.BorderThickness * 2) + self.MarkerHeight + self.MarkerDistance)*12)
+        self.setGeometry(0, 0, self.MarkerWidth + 400,
+                         ((self.BorderThickness * 2) + self.MarkerHeight + self.MarkerDistance) * 12)
 
         # create some re-usable colors for the various markers. High and Low will
         # indicate whether you have reached a threshold or not. Border color does not change
@@ -73,9 +76,11 @@ class AoA(QWidget):
         self.GreenHigh      = QColor(70, 255, 70, 255)
         self.GreenBorder    = QColor(100, 150, 100)
 
-        self.BlueLow       = QColor(30, 40, 100, 100)
-        self.BlueHigh      = QColor(70, 130, 255, 255)
-        self.BlueBorder    = QColor(70, 90, 150)
+        self.BlueLow        = QColor(30, 40, 100, 100)
+        self.BlueHigh       = QColor(70, 130, 255, 255)
+        self.BlueBorder     = QColor(70, 90, 150)
+
+        self.White          = QColor(255, 255, 255)
 
 
 
@@ -96,6 +101,8 @@ class AoA(QWidget):
         painter.setBrush(QBrush(self.RedLow if self._aoa < self.item.get_aux_value('Stall') - 1.0 else self.RedHigh,
                                 Qt.SolidPattern))
         painter.drawRect(1, self.setMarkerHeight(1), self.MarkerWidth, self.MarkerHeight)
+
+
 
         # painter.setPen(QPen(self.YellowBorder, self.BorderThickness, Qt.SolidLine))
         painter.setBrush(QBrush(self.YellowLow if self._aoa < self.item.get_aux_value('Warn') else self.YellowHigh,
@@ -151,6 +158,10 @@ class AoA(QWidget):
                                 Qt.SolidPattern))
         painter.drawRect(1, self.setMarkerHeight(12), self.MarkerWidth, self.MarkerHeight)
 
+        if (self._aoa >= self.item.get_aux_value("Stall")): painter.setPen(self.RedHigh)
+        elif (self._aoa >= self.item.get_aux_value("Warn")): painter.setPen(self.YellowHigh)
+        else: painter.setPen(self.White)
+        painter.drawText(5, self.setMarkerHeight(15), str("{:.1f}".format(self._aoa)))
 
 
     def setLevelAngle(self):
