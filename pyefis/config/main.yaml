@@ -29,12 +29,12 @@ menu:
       #    - ['Units', 'Set Instrument Units', 'OAT,OILT1,Temperature:Toggle']
       #    - ['Basic', 'activate menu','BasicMenu']
       BasicMenu:
-#          - ['Hide', 'activate menu', 'ShowMenu2']
+          - ['Hide', 'activate menu', 'ShowMenu2']
           - ['PFD', 'Show Screen','PFD']
           - ['EPFD', 'Show Screen','EPFD']
           - ['EMS', 'Show Screen','EMS']
           - ['PFDSM', 'Show Screen','PFDSM']
-          - ['TEST', 'Show Screen', 'TEST']
+#          - ['TEST', 'Show Screen', 'TEST']
           - ['AoA', 'Show Screen','AOA']
       #    - ['Six', 'Show Screen','SixPack']
       #    - ['Main', 'activate menu','PFDMenu']
@@ -46,8 +46,8 @@ menu:
   start_menu: BasicMenu
 #  show_time: 3  # hides the menu after 3 seconds.  However cannot show again.  Don't use.  Here for reference only.
   number_of_buttons: 6
-  buttons_spacing: 100
-  left_margin: 420
+  buttons_spacing: -100
+  left_margin: 924
   top_margin: 565
 
 # The keybindings are used to attach keystrokes to actions.  The key can be
