@@ -34,6 +34,9 @@ class AoA(QWidget):
         self.myparent = parent
         self.update_period = None
         self._aoa = 0
+        self._0g = 0
+        self._warn = 0
+        self._stall = 0
         self.item = fix.db.get_item("AOA")
         self.item.valueChanged[float].connect(self.setAOA)
         self.setMinimumSize(QSize(500, 500))
@@ -52,6 +55,7 @@ class AoA(QWidget):
 
         # Create a few variables that define the shape and properties
         # of each mark on the AoA indicator
+        self.LeftOffset = 3
         self.MarkerHeight = 6
         self.MarkerWidth = 30
         self.MarkerDistance = 2
@@ -87,21 +91,23 @@ class AoA(QWidget):
     def setAOA(self, aoa):
         if aoa != self._aoa:
             self._aoa = aoa
+            self._0g = self.item.get_aux_value('0g')
+            self._warn = self.item.get_aux_value('Warn')
+            self._stall = self.item.get_aux_value('Stall')
             self.update()
 
     def paintEvent(self, event):
         painter = QPainter(self)
 
         # painter.setPen(QPen(self.RedBorder, self.BorderThickness, Qt.SolidLine))
-        painter.setBrush(QBrush(self.RedLow if self._aoa < self.item.get_aux_value('Stall') else self.RedHigh,
-                                Qt.SolidPattern))
+        painter.setBrush(QBrush(self.RedLow if self._aoa < self._stall else self.RedHigh, Qt.SolidPattern))
         dangerBar = QPolygon([
-            QPoint(1, self.setMarkerHeight(0) + self.MarkerDistance),
+            QPoint(self.LeftOffset, self.setMarkerHeight(0) + self.MarkerDistance),
             QPoint(self.MarkerWidth/2, self.setMarkerHeight(0) + self.MarkerHeight + self.MarkerDistance),
             QPoint(self.MarkerWidth,  self.setMarkerHeight(0) + self.MarkerDistance),
             QPoint(self.MarkerWidth, self.setMarkerHeight(1)),
             QPoint(self.MarkerWidth/2, self.setMarkerHeight(1) + self.MarkerHeight),
-            QPoint(1, self.setMarkerHeight(1))
+            QPoint(self.LeftOffset, self.setMarkerHeight(1))
         ])
         painter.drawPolygon(dangerBar)
 
@@ -110,12 +116,12 @@ class AoA(QWidget):
                                 Qt.SolidPattern))
         # painter.drawRect(1, self.setMarkerHeight(1), self.MarkerWidth, self.MarkerHeight)
         dangerBar = QPolygon([
-            QPoint(1, self.setMarkerHeight(1) + self.MarkerDistance),
+            QPoint(self.LeftOffset, self.setMarkerHeight(1) + self.MarkerDistance),
             QPoint(self.MarkerWidth / 2, self.setMarkerHeight(1) + self.MarkerHeight  + self.MarkerDistance),
             QPoint(self.MarkerWidth, self.setMarkerHeight(1) + self.MarkerDistance),
             QPoint(self.MarkerWidth, self.setMarkerHeight(2)),
             QPoint(self.MarkerWidth / 2, self.setMarkerHeight(2) + self.MarkerHeight),
-            QPoint(1, self.setMarkerHeight(2))
+            QPoint(self.LeftOffset, self.setMarkerHeight(2))
         ])
         painter.drawPolygon(dangerBar)
 
@@ -124,140 +130,136 @@ class AoA(QWidget):
         painter.setBrush(QBrush(self.YellowLow if self._aoa < self.item.get_aux_value('Warn') else self.YellowHigh,
                                 Qt.SolidPattern))
         # painter.drawRect(1, self.setMarkerHeight(2), self.MarkerWidth, self.MarkerHeight)
-        dangerBar = QPolygon([
-            QPoint(1, self.setMarkerHeight(2) + self.MarkerDistance),
+        warnBar = QPolygon([
+            QPoint(self.LeftOffset, self.setMarkerHeight(2) + self.MarkerDistance),
             QPoint(self.MarkerWidth / 2, self.setMarkerHeight(2) + self.MarkerHeight + self.MarkerDistance),            QPoint(self.MarkerWidth, self.setMarkerHeight(2) + self.MarkerDistance),
             QPoint(self.MarkerWidth, self.setMarkerHeight(3)),
             QPoint(self.MarkerWidth / 2, self.setMarkerHeight(3) + self.MarkerHeight),
-            QPoint(1, self.setMarkerHeight(3))
+            QPoint(self.LeftOffset, self.setMarkerHeight(3))
         ])
-        painter.drawPolygon(dangerBar)
+        painter.drawPolygon(warnBar)
 
         # painter.setPen(QPen(self.YellowBorder, self.BorderThickness, Qt.SolidLine))
         painter.setBrush(QBrush(self.YellowLow if self._aoa < self.item.get_aux_value('Warn') - 1 else self.YellowHigh,
                                 Qt.SolidPattern))
         # painter.drawRect(1, self.setMarkerHeight(3), self.MarkerWidth, self.MarkerHeight)
-        dangerBar = QPolygon([
-            QPoint(1, self.setMarkerHeight(3) + self.MarkerDistance),
+        warnBar = QPolygon([
+            QPoint(self.LeftOffset, self.setMarkerHeight(3) + self.MarkerDistance),
             QPoint(self.MarkerWidth / 2, self.setMarkerHeight(3) + self.MarkerHeight + self.MarkerDistance),
             QPoint(self.MarkerWidth, self.setMarkerHeight(3) + self.MarkerDistance),
             QPoint(self.MarkerWidth, self.setMarkerHeight(4)),
             QPoint(self.MarkerWidth / 2, self.setMarkerHeight(4) + self.MarkerHeight),
-            QPoint(1, self.setMarkerHeight(4))
+            QPoint(self.LeftOffset, self.setMarkerHeight(4))
         ])
-        painter.drawPolygon(dangerBar)
+        painter.drawPolygon(warnBar)
 
         # painter.setPen(QPen(self.GreenBorder, self.BorderThickness, Qt.SolidLine))
         painter.setBrush(QBrush(self.GreenLow if self._aoa < self.item.get_aux_value('Warn') - 2 else self.GreenHigh,
                                 Qt.SolidPattern))
         # painter.drawRect(1, self.setMarkerHeight(4), self.MarkerWidth, self.MarkerHeight)
-        dangerBar = QPolygon([
-            QPoint(1, self.setMarkerHeight(4) + self.MarkerDistance),
+        greenBar = QPolygon([
+            QPoint(self.LeftOffset, self.setMarkerHeight(4) + self.MarkerDistance),
             QPoint(self.MarkerWidth / 2, self.setMarkerHeight(4) + self.MarkerHeight + self.MarkerDistance),
             QPoint(self.MarkerWidth, self.setMarkerHeight(4) + self.MarkerDistance),
             QPoint(self.MarkerWidth, self.setMarkerHeight(5)),
             QPoint(self.MarkerWidth / 2, self.setMarkerHeight(5) + self.MarkerHeight),
-            QPoint(1, self.setMarkerHeight(5))
+            QPoint(self.LeftOffset, self.setMarkerHeight(5))
         ])
-        painter.drawPolygon(dangerBar)
+        painter.drawPolygon(greenBar)
 
         # painter.setPen(QPen(self.GreenBorder, self.BorderThickness, Qt.SolidLine))
         painter.setBrush(QBrush(self.GreenLow if self._aoa < self.item.get_aux_value('Warn') - 3 else self.GreenHigh,
                                 Qt.SolidPattern))
         # painter.drawRect(1, self.setMarkerHeight(5), self.MarkerWidth, self.MarkerHeight)
-        dangerBar = QPolygon([
-            QPoint(1, self.setMarkerHeight(5) + self.MarkerDistance),
+        greenBar = QPolygon([
+            QPoint(self.LeftOffset, self.setMarkerHeight(5) + self.MarkerDistance),
             QPoint(self.MarkerWidth / 2, self.setMarkerHeight(5) + self.MarkerHeight + self.MarkerDistance),
             QPoint(self.MarkerWidth, self.setMarkerHeight(5) + self.MarkerDistance),
             QPoint(self.MarkerWidth, self.setMarkerHeight(6)),
             QPoint(self.MarkerWidth / 2, self.setMarkerHeight(6) + self.MarkerHeight),
-            QPoint(1, self.setMarkerHeight(6))
+            QPoint(self.LeftOffset, self.setMarkerHeight(6))
         ])
-        painter.drawPolygon(dangerBar)
+        painter.drawPolygon(greenBar)
 
         # painter.setPen(QPen(self.GreenBorder, self.BorderThickness, Qt.SolidLine))
         painter.setBrush(QBrush(self.GreenLow if self._aoa < self.item.get_aux_value('Warn') - 4 else self.GreenHigh,
                                 Qt.SolidPattern))
         # painter.drawRect(1, self.setMarkerHeight(6), self.MarkerWidth, self.MarkerHeight)
-        dangerBar = QPolygon([
-            QPoint(1, self.setMarkerHeight(6) + self.MarkerDistance),
+        greenBar = QPolygon([
+            QPoint(self.LeftOffset, self.setMarkerHeight(6) + self.MarkerDistance),
             QPoint(self.MarkerWidth / 2, self.setMarkerHeight(6) + self.MarkerHeight + self.MarkerDistance),
             QPoint(self.MarkerWidth, self.setMarkerHeight(6) + self.MarkerDistance),
             QPoint(self.MarkerWidth, self.setMarkerHeight(7)),
             QPoint(self.MarkerWidth / 2, self.setMarkerHeight(7) + self.MarkerHeight),
-            QPoint(1, self.setMarkerHeight(7))
+            QPoint(self.LeftOffset, self.setMarkerHeight(7))
         ])
-        painter.drawPolygon(dangerBar)
+        painter.drawPolygon(greenBar)
 
         # painter.setPen(QPen(self.GreenBorder, self.BorderThickness, Qt.SolidLine))
         painter.setBrush(QBrush(self.GreenLow if self._aoa < self.item.get_aux_value('Warn') - 5 else self.GreenHigh,
                                 Qt.SolidPattern))
         # painter.drawRect(1, self.setMarkerHeight(7), self.MarkerWidth, self.MarkerHeight)
-        dangerBar = QPolygon([
-            QPoint(1, self.setMarkerHeight(7)),
-            QPoint(self.MarkerWidth / 2, self.setMarkerHeight(7) + self.MarkerHeight),
-            QPoint(self.MarkerWidth, self.setMarkerHeight(7)),
+        greenBar = QPolygon([
+            QPoint(self.LeftOffset, self.setMarkerHeight(7) + self.MarkerDistance),
+            QPoint(self.MarkerWidth / 2, self.setMarkerHeight(7) + self.MarkerHeight + self.MarkerDistance),
+            QPoint(self.MarkerWidth, self.setMarkerHeight(7) + self.MarkerDistance),
             QPoint(self.MarkerWidth, self.setMarkerHeight(8)),
             QPoint(self.MarkerWidth / 2, self.setMarkerHeight(8) + self.MarkerHeight),
-            QPoint(1, self.setMarkerHeight(8))
+            QPoint(self.LeftOffset, self.setMarkerHeight(8))
         ])
-        painter.drawPolygon(dangerBar)
+        painter.drawPolygon(greenBar)
 
         # painter.setPen(QPen(self.GreenBorder, self.BorderThickness, Qt.SolidLine))
         painter.setBrush(QBrush(self.GreenLow if self._aoa < self.item.get_aux_value('Warn') - 7 else self.GreenHigh,
                                 Qt.SolidPattern))
         # painter.drawRect(1, self.setMarkerHeight(8), self.MarkerWidth, self.MarkerHeight)
-        dangerBar = QPolygon([
-            QPoint(1, self.setMarkerHeight(8)),
-            QPoint(self.MarkerWidth / 2, self.setMarkerHeight(8) + self.MarkerHeight),
-            QPoint(self.MarkerWidth, self.setMarkerHeight(8)),
+        greenBar = QPolygon([
+            QPoint(self.LeftOffset, self.setMarkerHeight(8) + self.MarkerDistance),
+            QPoint(self.MarkerWidth / 2, self.setMarkerHeight(8) + self.MarkerHeight + self.MarkerDistance),
+            QPoint(self.MarkerWidth, self.setMarkerHeight(8) + self.MarkerDistance),
             QPoint(self.MarkerWidth, self.setMarkerHeight(9)),
             QPoint(self.MarkerWidth / 2, self.setMarkerHeight(9) + self.MarkerHeight),
-            QPoint(1, self.setMarkerHeight(9))
+            QPoint(self.LeftOffset, self.setMarkerHeight(9))
         ])
-        painter.drawPolygon(dangerBar)
-
-        # painter.setPen(QPen(self.GreenBorder, self.BorderThickness, Qt.SolidLine))
-        painter.setBrush(QBrush(self.GreenLow if self._aoa < self.item.get_aux_value('Warn') - 8 else self.GreenHigh,
-                                Qt.SolidPattern))
-        # painter.drawRect(1, self.setMarkerHeight(9), self.MarkerWidth, self.MarkerHeight)
-        dangerBar = QPolygon([
-            QPoint(1, self.setMarkerHeight(9)),
-            QPoint(self.MarkerWidth / 2, self.setMarkerHeight(9) + self.MarkerHeight),
-            QPoint(self.MarkerWidth, self.setMarkerHeight(9)),
-            QPoint(self.MarkerWidth, self.setMarkerHeight(10)),
-            QPoint(self.MarkerWidth / 2, self.setMarkerHeight(10) + self.MarkerHeight),
-            QPoint(1, self.setMarkerHeight(10))
-        ])
-        painter.drawPolygon(dangerBar)
+        painter.drawPolygon(greenBar)
 
         # painter.setPen(QPen(self.BlueBorder, self.BorderThickness, Qt.SolidLine))
         painter.setBrush(QBrush(self.BlueLow if self._aoa < self.item.get_aux_value('0g') + 3 else self.BlueHigh,
                                 Qt.SolidPattern))
         # painter.drawRect(1, self.setMarkerHeight(10), self.MarkerWidth, self.MarkerHeight)
-        dangerBar = QPolygon([
-            QPoint(1, self.setMarkerHeight(10)),
-            QPoint(self.MarkerWidth / 2, self.setMarkerHeight(10) + self.MarkerHeight),
-            QPoint(self.MarkerWidth, self.setMarkerHeight(10)),
-            QPoint(self.MarkerWidth, self.setMarkerHeight(12)),
-            QPoint(self.MarkerWidth / 2, self.setMarkerHeight(12)),
-            QPoint(1, self.setMarkerHeight(12))
+        blueBar = QPolygon([
+            QPoint(self.LeftOffset, self.setMarkerHeight(9) + self.MarkerDistance),
+            QPoint(self.MarkerWidth / 2, self.setMarkerHeight(9) + self.MarkerHeight + self.MarkerDistance),
+            QPoint(self.MarkerWidth, self.setMarkerHeight(9) + self.MarkerDistance),
+            QPoint(self.MarkerWidth, self.setMarkerHeight(10) + self.MarkerHeight/2),
+            QPoint(self.LeftOffset, self.setMarkerHeight(10) + self.MarkerHeight/2)
         ])
-        painter.drawPolygon(dangerBar)
+        painter.drawPolygon(blueBar)
 
         # painter.setPen(QPen(self.GreenBorder, self.BorderThickness, Qt.SolidLine))
         painter.setBrush(QBrush(self.GreenHigh, Qt.SolidPattern))
-        painter.drawRect(1, self.setMarkerHeight(13), self.MarkerWidth, self.MarkerHeight)
+        painter.drawRect(0, self.setMarkerHeight(10) + self.MarkerDistance + self.MarkerHeight/2,
+                         self.MarkerWidth + self.LeftOffset, self.MarkerHeight/2)
 
-        # painter.setPen(QPen(self.YellowBorder, self.BorderThickness, Qt.SolidLine))
         painter.setBrush(QBrush(self.YellowHigh if self._aoa < self.item.get_aux_value('0g') else self.YellowLow,
                                 Qt.SolidPattern))
-        painter.drawRect(1, self.setMarkerHeight(14), self.MarkerWidth, self.MarkerHeight)
+        painter.drawRect(self.LeftOffset, self.setMarkerHeight(11) + self.MarkerDistance, self.MarkerWidth,
+                         self.MarkerHeight)
+
+        painter.setPen(self.YellowHigh)
+        painter.drawText(5 + self.LeftOffset + self.MarkerWidth, self.setMarkerHeight(4) + self.MarkerDistance,
+                         str("{:.1f}".format(self._warn)))
+
+        painter.setPen(self.RedHigh)
+        painter.drawText(5 + self.LeftOffset + self.MarkerWidth, self.setMarkerHeight(2) + self.MarkerDistance,
+                         str("{:.1f}".format(self._stall)))
 
         if (self._aoa >= self.item.get_aux_value("Stall")): painter.setPen(self.RedHigh)
         elif (self._aoa >= self.item.get_aux_value("Warn")): painter.setPen(self.YellowHigh)
         else: painter.setPen(self.White)
-        painter.drawText(5, self.setMarkerHeight(15), str("{:.1f}".format(self._aoa)))
+        painter.drawText(5, self.setMarkerHeight(15) + self.MarkerDistance, str("{:.1f}".format(self._aoa)))
+
+
 
 
     def setLevelAngle(self):
