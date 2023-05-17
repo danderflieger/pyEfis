@@ -35,8 +35,8 @@ class AoA(QWidget):
         self.update_period = None
         self._aoa = 0
         self._0g = 0
-        self._warn = 0
-        self._stall = 0
+        self._warn = 10
+        self._stall = 13
         self.item = fix.db.get_item("AOA")
         self.item.valueChanged[float].connect(self.setAOA)
         self.setMinimumSize(QSize(500, 500))
@@ -103,7 +103,7 @@ class AoA(QWidget):
         painter.setBrush(QBrush(self.RedLow if self._aoa < self._stall else self.RedHigh, Qt.SolidPattern))
         dangerBar = QPolygon([
             QPoint(self.LeftOffset, self.setMarkerHeight(0) + self.MarkerDistance),
-            QPoint(self.MarkerWidth/2, self.setMarkerHeight(0) + self.MarkerHeight + self.MarkerDistance),
+            # QPoint(self.MarkerWidth/2, self.setMarkerHeight(0) + self.MarkerHeight + self.MarkerDistance),
             QPoint(self.MarkerWidth,  self.setMarkerHeight(0) + self.MarkerDistance),
             QPoint(self.MarkerWidth, self.setMarkerHeight(1)),
             QPoint(self.MarkerWidth/2, self.setMarkerHeight(1) + self.MarkerHeight),
@@ -239,16 +239,39 @@ class AoA(QWidget):
         # painter.setPen(QPen(self.GreenBorder, self.BorderThickness, Qt.SolidLine))
         painter.setBrush(QBrush(self.GreenHigh, Qt.SolidPattern))
         painter.drawRect(0, self.setMarkerHeight(10) + self.MarkerDistance + self.MarkerHeight/2,
-                         self.MarkerWidth + self.LeftOffset, self.MarkerHeight/2)
+                         self.MarkerWidth + self.LeftOffset, self.MarkerHeight - self.MarkerDistance)
 
         painter.setBrush(QBrush(self.YellowHigh if self._aoa < self.item.get_aux_value('0g') else self.YellowLow,
                                 Qt.SolidPattern))
-        painter.drawRect(self.LeftOffset, self.setMarkerHeight(11) + self.MarkerDistance, self.MarkerWidth,
-                         self.MarkerHeight)
+        yellowBar = QPolygon([
+            QPoint(self.LeftOffset, self.setMarkerHeight(11) + self.MarkerDistance),
+            QPoint(self.MarkerWidth, self.setMarkerHeight(11) + self.MarkerDistance),
+            QPoint(self.MarkerWidth, self.setMarkerHeight(11) + self.MarkerHeight * 2),
+            QPoint(self.MarkerWidth / 2, self.setMarkerHeight(11) + self.MarkerHeight),
+            QPoint(self.LeftOffset, self.setMarkerHeight(11) + self.MarkerHeight * 2)
+        ])
+        painter.drawPolygon(yellowBar)
+
+        painter.setBrush(QBrush(
+            self.YellowHigh
+            if self._aoa < self.item.get_aux_value('0g')-2
+            else self.YellowLow,
+            Qt.SolidPattern))
+
+        yellowBar = QPolygon([
+            QPoint(self.LeftOffset, self.setMarkerHeight(12) + (self.MarkerDistance * 2) + self.BorderThickness),
+            QPoint(self.MarkerWidth / 2, self.setMarkerHeight(12) - self.MarkerHeight + (self.MarkerDistance * 2) + self.BorderThickness),
+            QPoint(self.MarkerWidth, self.setMarkerHeight(12) + (self.MarkerDistance * 2) + self.BorderThickness),
+            QPoint(self.MarkerWidth, self.setMarkerHeight(13) + self.MarkerDistance),
+            QPoint(self.LeftOffset, self.setMarkerHeight(13) + self.MarkerDistance)
+        ])
+        painter.drawPolygon(yellowBar)
 
         painter.setPen(self.YellowHigh)
         painter.drawText(5 + self.LeftOffset + self.MarkerWidth, self.setMarkerHeight(4) + self.MarkerDistance,
                          str("{:.1f}".format(self._warn)))
+
+
 
         painter.setPen(self.RedHigh)
         painter.drawText(5 + self.LeftOffset + self.MarkerWidth, self.setMarkerHeight(2) + self.MarkerDistance,
