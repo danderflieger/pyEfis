@@ -30,3 +30,9 @@ def changeValue(arg):
 def toggleBool(arg):
     bit = fix.db.get_item(arg)
     bit.value = not bit.value
+
+def setAoA0g(arg):
+    _aoa = fix.db.get_item('AOA')
+    print(_aoa._value)
+    _aoa.set_aux_value('0g', _aoa._value)
+

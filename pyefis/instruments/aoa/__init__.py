@@ -17,6 +17,7 @@
 import sys
 import time
 
+from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
@@ -37,6 +38,7 @@ class AoA(QWidget):
         self._0g = 0
         self._warn = 10
         self._stall = 13
+
         self.item = fix.db.get_item("AOA")
         self.item.valueChanged[float].connect(self.setAOA)
         self.setMinimumSize(QSize(500, 500))
@@ -86,7 +88,17 @@ class AoA(QWidget):
 
         self.White          = QColor(255, 255, 255)
 
-
+        # self.set0g = QtWidgets.QPushButton(self)
+        # self.set0g.setGeometry(QtCore.QRect(100, 5, 100, 50))
+        # self.set0g.setObjectName("set0g")
+        # self.set_warn_2 = QtWidgets.QPushButton(self)
+        # self.set_warn_2.setGeometry(QtCore.QRect(100, 55, 100, 50))
+        # self.set_warn_2.setObjectName("set_warn_2")
+        # self.set_stall = QtWidgets.QPushButton(self)
+        # self.set_stall.setGeometry(QtCore.QRect(100, 105, 100, 50))
+        # self.set_stall.setObjectName("set_stall")
+        #
+        # self.retranslateUi(self)
 
     def setAOA(self, aoa):
         if aoa != self._aoa:
@@ -95,6 +107,15 @@ class AoA(QWidget):
             self._warn = self.item.get_aux_value('Warn')
             self._stall = self.item.get_aux_value('Stall')
             self.update()
+
+    # def retranslateUi(self, aoa):
+    #     _translate = QtCore.QCoreApplication.translate
+    #     # aoa_angle_setter.setWindowTitle(_translate("aoa_angle_setter", "Form"))
+    #     self.set0g.setText(_translate("aoa_angle_setter", "SET 0G"))
+    #     self.set_warn_2.setText(_translate("aoa_angle_setter", "SET WARN"))
+    #     self.set_stall.setText(_translate("aoa_angle_setter", "SET STALL"))
+
+
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -285,8 +306,6 @@ class AoA(QWidget):
 
 
 
-    def setLevelAngle(self):
-        print("clicked")
-
     def setMarkerHeight(self, markerNumber):
         return markerNumber * (self.MarkerHeight + self.MarkerDistance + self.BorderThickness)
+

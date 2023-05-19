@@ -18,6 +18,7 @@ import logging
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
+from pyavtools import fix
 
 from pyefis.hmi import functions
 from .menu import activateMenu
@@ -52,7 +53,8 @@ class ActionClass(QWidget):
                           "menu encoder":self.menuEncoder,
                           "set menu focus":self.setMenuFocus,
                           "set instrument units":self.setInstUnits,
-                          "evaluate":eval
+                          "evaluate":eval,
+                          "set aoa 0g":functions.setAoA0g
                     }
 
 

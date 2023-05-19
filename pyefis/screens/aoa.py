@@ -47,5 +47,6 @@ class Screen(QWidget):
 
         # self.test = gauges.ArcGauge(self)
         # self.aoa_tape = aoa.AoA_Tape(self)
-        self.test = aoa.AoA(self)
+        self.aoa_indicator = aoa.AoA(self)
+
 
