@@ -36,3 +36,13 @@ def setAoA0g(arg):
     print(_aoa._value)
     _aoa.set_aux_value('0g', _aoa._value)
 
+def setAoAWarn(arg):
+    _aoa = fix.db.get_item('AOA')
+    print(_aoa._value)
+    _aoa.set_aux_value('Warn', _aoa._value)
+
+def setAoAStall(arg):
+    _aoa = fix.db.get_item('AOA')
+    print(_aoa._value)
+    _aoa.set_aux_value('Stall', _aoa._value)
+

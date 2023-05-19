@@ -15,8 +15,8 @@ main:
   screenColor: (0,0,0)
 
   # If left out the first defined screen will be default
-  defaultScreen: PFDSM
-
+#  defaultScreen: PFDSM
+  defaultScreen: PFD
 menu:
   menus:
   # The button configuration is ['button text', 'action', 'argument']
@@ -47,6 +47,8 @@ menu:
       AoAMenu:
           - ['Back','activate menu', 'BasicMenu']
           - ['Set 0g', 'set aoa 0g', '']
+          - ['Set Warn', 'set aoa warn', '']
+          - ['Set Stall', 'set aoa stall', '']
 
   start_menu: BasicMenu
 #  show_time: 3  # hides the menu after 3 seconds.  However cannot show again.  Don't use.  Here for reference only.

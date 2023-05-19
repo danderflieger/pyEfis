@@ -54,7 +54,9 @@ class ActionClass(QWidget):
                           "set menu focus":self.setMenuFocus,
                           "set instrument units":self.setInstUnits,
                           "evaluate":eval,
-                          "set aoa 0g":functions.setAoA0g
+                          "set aoa 0g":functions.setAoA0g,
+                          "set aoa warn": functions.setAoAWarn,
+                          "set aoa stall": functions.setAoAStall
                     }
 
 
