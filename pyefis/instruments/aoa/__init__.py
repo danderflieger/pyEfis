@@ -26,7 +26,7 @@ from PyQt5.QtWidgets import *
 import pyavtools.fix as fix
 import pyefis.hmi as hmi
 from pyefis.instruments.NumericalDisplay import NumericalDisplay
-from playsound import playsound
+from pygame import mixer
 
 class AoA(QWidget):
     # First, let's define some things
@@ -109,6 +109,8 @@ class AoA(QWidget):
         # self.set_stall.setObjectName("set_stall")
         #
         # self.retranslateUi(self)
+        mixer.init()
+        mixer.music.load('pyefis/instruments/aoa/sound1.mp3')
 
     def setAOA(self, aoa):
         if aoa != self._aoa:
@@ -128,7 +130,10 @@ class AoA(QWidget):
             self.update()
 
             if self._aoa > self._stall:
-                playsound("./sound1.mp3")
+                mixer.music.play()
+            else:
+                mixer.music.stop()
+
 
     # def retranslateUi(self, aoa):
     #     _translate = QtCore.QCoreApplication.translate
