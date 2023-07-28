@@ -147,9 +147,12 @@ class AoA(QWidget):
         if self._aoa > self._stall:
             if not mixer.music.get_busy():
                 mixer.music.play()
+            else:
+                mixer.music.rewind()
         else:
-            mixer.music.stop()
-            mixer.music.rewind()
+            if mixer.music.get_busy():
+                mixer.music.stop()
+                mixer.music.rewind()
 
         # painter.setPen(QPen(self.RedBorder, self.BorderThickness, Qt.SolidLine))
         # painter.setBrush(QBrush(self.RedLow if self._aoa < self._stall else self.RedHigh, Qt.SolidPattern))
