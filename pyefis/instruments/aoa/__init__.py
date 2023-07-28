@@ -144,7 +144,7 @@ class AoA(QWidget):
     def paintEvent(self, event):
         painter = QPainter(self)
 
-        if self._aoa > self._stall:
+        if self._interpolatedAoa > 8:
             if not mixer.music.get_busy():
                 mixer.music.rewind()
                 mixer.music.play()
