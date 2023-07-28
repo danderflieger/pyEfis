@@ -129,10 +129,7 @@ class AoA(QWidget):
 
             self.update()
 
-            if self._aoa > self._stall:
-                mixer.music.play()
-            else:
-                mixer.music.stop()
+
 
 
     # def retranslateUi(self, aoa):
@@ -146,6 +143,11 @@ class AoA(QWidget):
 
     def paintEvent(self, event):
         painter = QPainter(self)
+
+        if self._aoa > self._stall:
+            mixer.music.play()
+        else:
+            mixer.music.stop()
 
         # painter.setPen(QPen(self.RedBorder, self.BorderThickness, Qt.SolidLine))
         # painter.setBrush(QBrush(self.RedLow if self._aoa < self._stall else self.RedHigh, Qt.SolidPattern))
