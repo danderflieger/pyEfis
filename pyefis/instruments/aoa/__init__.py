@@ -147,7 +147,7 @@ class AoA(QWidget):
         if self._interpolatedAoa > 8:
             if not mixer.music.get_busy():
                 mixer.music.rewind()
-                mixer.music.play(-1, 0.0, 0)
+                mixer.music.play(-1, 0.0)
         else:
             if mixer.music.get_busy():
                 mixer.music.stop()
