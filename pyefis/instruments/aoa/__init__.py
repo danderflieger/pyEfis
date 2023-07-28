@@ -210,9 +210,9 @@ class AoA(QWidget):
         # painter.setPen(QPen(self.YellowBorder, self.BorderThickness, Qt.SolidLine))
         # painter.setBrush(QBrush(self.YellowLow if self._aoa < self.item.get_aux_value('Warn') - 1 else self.YellowHigh,
         #                         Qt.SolidPattern))
-        painter.setBrush(QBrush(self.OrangeHigh if
+        painter.setBrush(QBrush(self.YellowHigh if
                                 self._aoa > self._markerInterpolatorValue * 7
-                                else self.OrangeLow,
+                                else self.YellowLow,
                                 Qt.SolidPattern))
         # painter.drawRect(1, self.setMarkerHeight(3), self.MarkerWidth, self.MarkerHeight)
         warnBar = QPolygon([
@@ -369,9 +369,9 @@ class AoA(QWidget):
         ])
         painter.drawPolygon(yellowBar)
 
-        painter.setPen(self.YellowHigh)
-        painter.drawText(5 + self.LeftOffset + self.MarkerWidth, self.setMarkerHeight(4) + self.MarkerDistance,
-                         str("{:.1f}".format(self._warn)))
+        # painter.setPen(self.YellowHigh)
+        # painter.drawText(5 + self.LeftOffset + self.MarkerWidth, self.setMarkerHeight(4) + self.MarkerDistance,
+        #                  str("{:.1f}".format(self._warn)))
 
 
 
@@ -380,15 +380,15 @@ class AoA(QWidget):
                          str("{:.1f}".format(self._stall)))
 
         if (self._aoa >= self.item.get_aux_value("Stall")): painter.setPen(self.RedHigh)
-        elif (self._aoa >= self.item.get_aux_value("Warn")): painter.setPen(self.YellowHigh)
+        # elif (self._aoa >= self.item.get_aux_value("Warn")): painter.setPen(self.YellowHigh)
         else: painter.setPen(self.White)
 
         painter.drawText(5, self.setMarkerHeight(15) + self.MarkerDistance, str("{:.1f}".format(self._aoa)))
 
-        painter.drawText(50, self.setMarkerHeight(15) + self.MarkerDistance, str("{:.1f}".format(self._interpolatedAoa)))
+        # painter.drawText(50, self.setMarkerHeight(15) + self.MarkerDistance, str("{:.1f}".format(self._interpolatedAoa)))
 
-        painter.setPen(self.White)
-        painter.drawText(5, self.setMarkerHeight(20) + self.MarkerDistance, str("_markerInterpolatorValue: {:.1f}".format(self._markerInterpolatorValue)))
+        # painter.setPen(self.White)
+        # painter.drawText(5, self.setMarkerHeight(20) + self.MarkerDistance, str("_markerInterpolatorValue: {:.1f}".format(self._markerInterpolatorValue)))
 
 
     def setMarkerHeight(self, markerNumber):

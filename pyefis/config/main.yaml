@@ -36,7 +36,7 @@ menu:
           - ['PFDSM', 'Show Screen','PFDSM']
 #          - ['TEST', 'Show Screen', 'TEST']
           - ['AoA', 'Show Screen','AOA']
-          - ['Set AoA', 'activate menu', 'AoAMenu']
+#          - ['Set AoA', 'activate menu', 'AoAMenu']
       #    - ['Six', 'Show Screen','SixPack']
       #    - ['Main', 'activate menu','PFDMenu']
       #ShowMenu:
@@ -44,18 +44,18 @@ menu:
       ShowMenu2:
           - ['Show', 'activate menu','BasicMenu']
 
-      AoAMenu:
-          - ['Back','activate menu', 'BasicMenu']
-          - ['Set 0g', 'set aoa 0g', '']
-          - ['Set Warn', 'set aoa warn', '']
-          - ['Set Stall', 'set aoa stall', '']
+#      AoAMenu:
+#          - ['Back','activate menu', 'BasicMenu']
+#          - ['Set 0g', 'set aoa 0g', '']
+#          - ['Set Warn', 'set aoa warn', '']
+#          - ['Set Stall', 'set aoa stall', '']
 
   start_menu: BasicMenu
 #  show_time: 3  # hides the menu after 3 seconds.  However cannot show again.  Don't use.  Here for reference only.
   number_of_buttons: 6
   buttons_spacing: -110
   left_margin: 924
-  top_margin: 565
+  top_margin: 525
 
 # The keybindings are used to attach keystrokes to actions.  The key can be
 # a string that represents a key Sequence.  See the documentation for more
