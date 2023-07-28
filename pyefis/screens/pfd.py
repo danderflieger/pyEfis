@@ -28,10 +28,13 @@ from pyefis.instruments import vsi
 from pyefis.instruments import tc
 
 class Screen(QWidget):
+    # def __init__(self, parent=None):
     def __init__(self, parent=None):
         super(Screen, self).__init__(parent)
         self.parent = parent
         p = self.parent.palette()
+
+        show_aoa = self.get_config_item("show_aoa")
 
         self.screenColor = (0,0,0)
         if self.screenColor:

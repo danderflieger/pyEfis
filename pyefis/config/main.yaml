@@ -16,7 +16,7 @@ main:
 
   # If left out the first defined screen will be default
 #  defaultScreen: PFDSM
-  defaultScreen: PFD
+  defaultScreen: AOA
 menu:
   menus:
   # The button configuration is ['button text', 'action', 'argument']
@@ -178,6 +178,7 @@ screens:
   PFD:
     module: pyefis.screens.pfd
     title: Primary Flight Display
+    show_aoa: False
 #    dbpath: /home/phil/.makerplane/data/CIFP/FAACIFP18
 #    indexpath: /home/phil/.makerplane/data/CIFP/index.bin
     update_period: .1
