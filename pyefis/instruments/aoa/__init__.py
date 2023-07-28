@@ -77,16 +77,16 @@ class AoA(QWidget):
         # create some re-usable colors for the various markers. High and Low will
         # indicate whether you have reached a threshold or not. Border color does not change
         self.RedLow         = QColor(100, 30, 30, 100)
-        self.RedHigh        = QColor(255, 70, 70, 255)
-        self.RedBorder      = QColor(150, 100, 100)
+        self.RedHigh        = QColor(200, 60, 70, 255)
+        self.RedBorder      = QColor(140, 70, 70)
 
-        self.OrangeLow      = QColor(100, 50, 30, 100)
-        self.OrangeHigh     = QColor(255, 160, 70, 255)
-        self.OrangeBorder   = QColor(150, 120, 100)
+        self.OrangeLow      = QColor(100, 40, 30, 100)
+        self.OrangeHigh     = QColor(255, 150, 70, 255)
+        self.OrangeBorder   = QColor(150, 75, 70)
 
         self.YellowLow      = QColor(100, 100, 30, 100)
         self.YellowHigh     = QColor(255, 255, 70, 255)
-        self.YellowBorder   = QColor(150, 150, 100)
+        self.YellowBorder   = QColor(150, 150, 70)
 
         self.GreenLow       = QColor(30, 100, 30, 100)
         self.GreenHigh      = QColor(70, 255, 70, 255)
