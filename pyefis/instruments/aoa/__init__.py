@@ -145,6 +145,7 @@ class AoA(QWidget):
         painter = QPainter(self)
 
         if self._aoa > self._stall:
+            mixer.music.rewind()
             mixer.music.play()
         else:
             mixer.music.stop()
