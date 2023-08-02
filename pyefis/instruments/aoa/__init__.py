@@ -35,17 +35,17 @@ class AoA(QWidget):
         # self.setFocusPolicy(Qt.ClickFocus)
         self.myparent = parent
         self.update_period = None
-        self._aoa = 0
-        self._0g = 0
-        self._warn = 9
-        self._stall = 11
+        self._aoa = 0.0
+        self._0g = 0.0
+        self._warn = 9.0
+        self._stall = 11.0
 
-        self._markerInterpolatorValue   = 1
-        self._interpolatedAoa           = 0
+        self._markerInterpolatorValue   = 1.0
+        self._interpolatedAoa           = 0.0
 
-        self._interpolated0g    = 0
-        self._interpolatedWarn  = 5
-        self._interpolatedStall = 7
+        self._interpolated0g    = 0.0
+        self._interpolatedWarn  = 5.0
+        self._interpolatedStall = 7.0
 
 
         self.item = fix.db.get_item("AOA")
@@ -377,18 +377,18 @@ class AoA(QWidget):
 
         painter.setPen(self.RedHigh)
         painter.drawText(5 + self.LeftOffset + self.MarkerWidth, self.setMarkerHeight(2) + self.MarkerDistance,
-                         str("{:.1f}".format(self._stall)))
+                         str("{:.2f}".format(self._stall)))
 
         if (self._aoa >= self.item.get_aux_value("Stall")): painter.setPen(self.RedHigh)
         # elif (self._aoa >= self.item.get_aux_value("Warn")): painter.setPen(self.YellowHigh)
         else: painter.setPen(self.White)
 
-        painter.drawText(5, self.setMarkerHeight(15) + self.MarkerDistance, str("{:.1f}".format(self._aoa)))
+        painter.drawText(5, self.setMarkerHeight(15) + self.MarkerDistance, str("{:.2f}".format(self._aoa)))
 
-        # painter.drawText(50, self.setMarkerHeight(15) + self.MarkerDistance, str("{:.1f}".format(self._interpolatedAoa)))
+        # painter.drawText(100, self.setMarkerHeight(15) + self.MarkerDistance, str("{:.2f}".format(self._interpolatedAoa)))
 
         # painter.setPen(self.White)
-        # painter.drawText(5, self.setMarkerHeight(20) + self.MarkerDistance, str("_markerInterpolatorValue: {:.1f}".format(self._markerInterpolatorValue)))
+        # painter.drawText(150, self.setMarkerHeight(20) + self.MarkerDistance, str("_markerInterpolatorValue: {:.2f}".format(self._markerInterpolatorValue)))
 
 
     def setMarkerHeight(self, markerNumber):

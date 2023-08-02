@@ -6,7 +6,7 @@ main:
   #screenWidth: 1024
   #screenHeight: 768
   screenWidth: 1024
-  screenHeight: 600
+  screenHeight: 570
 
   # Set EFIS to occupy the entire screen without system border / menu
   screenFullSize: False
@@ -55,7 +55,7 @@ menu:
   number_of_buttons: 6
   buttons_spacing: -110
   left_margin: 924
-  top_margin: 525
+  top_margin: 505
 
 # The keybindings are used to attach keystrokes to actions.  The key can be
 # a string that represents a key Sequence.  See the documentation for more
